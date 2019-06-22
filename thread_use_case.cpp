@@ -1,8 +1,6 @@
 #include "thread_use_case.h"
 #include <iostream>
 
-using namespace cv;
-
 void useCaseThread::initThread() {
     threadStatus = THREAD_STATUS_RUNNING;
     tid = pthread_self();
@@ -40,6 +38,7 @@ void useCaseThread::run() {
 
         lockSrc();
         //线程在此挂起，等待src数据，主线程会将src数据拷贝到目标地址后，再发射信号
+        DEBUG("IN thread waitting...\n");
         waitSrc();
         mProcessingDepth = true;
         //退出信号
@@ -70,6 +69,8 @@ int useCaseThread::processDepth(){
     //input buffer in mPtrBokehHandle->imageCurSrc;
     
     //processing depth
+    DEBUG("~~~~~~~~~~~~~~~~~~ in processDepth...\n");
+    sleep(2);//模拟处理时间
 
     //generate depth in mPtrBokehHandle->imagePreDepth;
 }
@@ -123,12 +124,12 @@ void useCaseThread::getDepth(image_t*  p_image_depth) {
  bool useCaseThread::isDepthReady() {
      return mDepthReady;
  }
- bool ST_SegmentThread::isThreadRunning() {
+ bool useCaseThread::isThreadRunning() {
      return mFlagRunning;
  }
 
 
-void ST_SegmentThread::quit() {
+void useCaseThread::quit() {
     mFlagRunning = false;
     signalSrc();
 }

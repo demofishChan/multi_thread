@@ -43,8 +43,8 @@ public:
     void waitDepth();
 
     // 实现
-    void updateSrc();
-    void getDepth();
+    void updateSrc(image_t* p_image_src) ;
+    void getDepth(image_t*  p_image_depth);
     bool isProcessingDepth();
     bool isDepthReady();
     bool isThreadRunning();

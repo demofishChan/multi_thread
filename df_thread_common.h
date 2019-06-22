@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <pthread.h>
+#include<unistd.h>
  
 using namespace std;
  
@@ -26,7 +27,9 @@ public:
     //线程的状态－运行结束
     static const int THREAD_STATUS_EXIT = -1;
     //构造函数
-    Thread();
+    threadCommon();
+    //析构函数
+    ~threadCommon();
     //线程的运行实体
     virtual void run()=0;
     //开始执行线程

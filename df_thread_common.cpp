@@ -1,6 +1,5 @@
-#include "df_thread.h"
-#include <unistd.h>
- 
+#include "df_thread_common.h"
+
 void* threadCommon::run1()
 {
     threadStatus = THREAD_STATUS_RUNNING;
@@ -11,10 +10,16 @@ void* threadCommon::run1()
     pthread_exit(NULL);
 }
  
-threadCommon::Thread()
+threadCommon::threadCommon()
 {
     tid = 0;
     threadStatus = THREAD_STATUS_NEW;
+}
+
+threadCommon::~threadCommon()
+{
+    tid = 0;
+    threadStatus = THREAD_STATUS_EXIT;
 }
  
 bool threadCommon::start()
@@ -42,7 +47,7 @@ void threadCommon::join()
 }
 void * threadCommon::thread_proxy_func(void * args)
 {
- 	Thread * pThread = static_cast<Thread *>(args); 
+ 	threadCommon * pThread = static_cast<threadCommon *>(args); 
 	pThread->run(); 
  	return NULL; 
 }
