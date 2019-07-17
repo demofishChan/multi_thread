@@ -38,7 +38,7 @@ void useCaseThread::run() {
 
         lockSrc();
         //线程在此挂起，等待src数据，主线程会将src数据拷贝到目标地址后，再发射信号
-        DEBUG("IN thread waitting...\n");
+        DEBUG("IN depth thread waitting...\n");
         waitSrc();
         mProcessingDepth = true;
         //退出信号

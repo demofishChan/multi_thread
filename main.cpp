@@ -1,5 +1,6 @@
 #include <string.h>
 #include "thread_use_case.h"
+#include "thread_use_case_mask.h"
 #include<unistd.h>
 
 #define IMG_WIDTH 1920
@@ -31,6 +32,7 @@ int init(bokeh_handle_t ** p_bokeh_handle)
     *p_bokeh_handle = new bokeh_handle_t;
     // segment thread
     useCaseThread *depth_thread = new useCaseThread();
+    useCaseThreadMask *mask_thread  = new useCaseThreadMask();
     
     //创建共享内存，内存统一管理
     initImage_Bytes((*p_bokeh_handle)->imagePreSrc, IMG_WIDTH, IMG_HEIGHT);
@@ -38,8 +40,10 @@ int init(bokeh_handle_t ** p_bokeh_handle)
     initImage_Bytes((*p_bokeh_handle)->imagePreDepth, DEPTH_WIDTH, DEPTH_HEIGHT);
     initImage_Bytes((*p_bokeh_handle)->imageCurDepth, DEPTH_WIDTH, DEPTH_HEIGHT);
 
-    depth_thread->init(*p_bokeh_handle);//创建线程
+    depth_thread->init(*p_bokeh_handle);//创建depth子线程
     (*p_bokeh_handle)->p_depth_thread = depth_thread;
+    mask_thread->init(*p_bokeh_handle);//创建mask子线程
+    (*p_bokeh_handle)->p_mask_thread = mask_thread;
 }
 
 int deInit(bokeh_handle_t * p_bokeh_handle)
@@ -52,6 +56,8 @@ int deInit(bokeh_handle_t * p_bokeh_handle)
         deInitImage(p_bokeh_handle->imagePreDepth);
 
         p_bokeh_handle->p_depth_thread = nullptr;
+        p_bokeh_handle->p_mask_thread = nullptr;
+
         delete p_bokeh_handle;
     }
 }
@@ -124,6 +130,8 @@ int main()
             //DEBUG("signal...\n");
             p_depth_thread->signalSrc();
         }
+
+        //<todo> 实现mask函数的调用，仿照depth子线程的调用
 
         //blur
         //DEBUG("begin to blur...\n");

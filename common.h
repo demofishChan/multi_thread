@@ -14,6 +14,7 @@ typedef struct
 typedef struct 
 {
     void* p_depth_thread;
+    void* p_mask_thread;
     image_t imageCurSrc; //depth 线程入图
     image_t imagePreSrc; 
     image_t imageCurDepth; //depth 线程结果，用于blur线程的输入
