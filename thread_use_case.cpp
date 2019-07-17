@@ -1,5 +1,6 @@
 #include "thread_use_case.h"
 #include <iostream>
+#include <string.h>
 
 void useCaseThread::initThread() {
     threadStatus = THREAD_STATUS_RUNNING;
@@ -70,6 +71,11 @@ int useCaseThread::processDepth(){
     
     //processing depth
     DEBUG("~~~~~~~~~~~~~~~~~~ in processDepth...\n");
+    memset(mPtrBokehHandle->imageCurSrc.img_ptr, 0, 
+        mPtrBokehHandle->imageCurSrc.img_width * mPtrBokehHandle->imageCurSrc.img_height);
+        
+    memset(mPtrBokehHandle->imagePreDepth.img_ptr, 255, 
+        mPtrBokehHandle->imagePreDepth.img_width * mPtrBokehHandle->imagePreDepth.img_height);
     sleep(2);//模拟处理时间
 
     //generate depth in mPtrBokehHandle->imagePreDepth;

@@ -65,7 +65,9 @@ int deInit(bokeh_handle_t * p_bokeh_handle)
 int blur(bokeh_handle_t p_bokeh_handle, char * p_cur_frame)
 {
     //depth:p_bokeh_handle->imageCurDepth
-    usleep(500); //模拟处理时间
+    memset(p_bokeh_handle.imageCurDepth.img_ptr, 0, 
+        p_bokeh_handle.imageCurDepth.img_width * p_bokeh_handle.imageCurDepth.img_height);
+    sleep(1); //模拟处理时间
     DEBUG("Bluring...\n");
     return 0;
 }
@@ -88,7 +90,6 @@ int main()
     for (int i = 0; i < 100; i++)
     {
         DEBUG("%d\n", i);
-        sleep(1);
         useCaseThread *p_depth_thread =
             (useCaseThread *)p_bokeh_handle->p_depth_thread;
         
